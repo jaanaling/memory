@@ -1,0 +1,138 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:math';
+import 'dart:ui';
+
+class ColorData {
+  final String name;
+  final Color color;
+
+  const ColorData({
+    required this.name,
+    required this.color,
+  });
+
+  @override
+  bool operator ==(covariant ColorData other) {
+    if (identical(this, other)) return true;
+
+    return other.name == name && other.color == color;
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ color.hashCode;
+}
+
+final List<ColorData> kAvailableColors = [
+  const ColorData(name: 'Red', color: Color(0xFFFF0000)),
+  const ColorData(name: 'Green', color: Color(0xFF008000)),
+  const ColorData(name: 'Blue', color: Color(0xFF0000FF)),
+  const ColorData(name: 'Yellow', color: Color(0xFFFFFF00)),
+  const ColorData(name: 'Black', color: Color(0xFF000000)),
+  const ColorData(name: 'White', color: Color(0xFFFFFFFF)),
+  const ColorData(name: 'Purple', color: Color(0xFF800080)),
+  const ColorData(name: 'Orange', color: Color(0xFFFFA500)),
+  const ColorData(name: 'Pink', color: Color(0xFFFFC0CB)),
+  const ColorData(name: 'Brown', color: Color(0xFFA52A2A)),
+  const ColorData(name: 'Grey', color: Color(0xFF808080)),
+  const ColorData(name: 'Lime', color: Color(0xFF00FF00)),
+  const ColorData(name: 'Cyan', color: Color(0xFF00FFFF)),
+  const ColorData(name: 'Magenta', color: Color(0xFFFF00FF)),
+  const ColorData(name: 'Teal', color: Color(0xFF008080)),
+  const ColorData(name: 'Indigo', color: Color(0xFF4B0082)),
+  const ColorData(name: 'Violet', color: Color(0xFF8F00FF)),
+  const ColorData(name: 'Silver', color: Color(0xFFC0C0C0)),
+  const ColorData(name: 'Gold', color: Color(0xFFFFD700)),
+  const ColorData(name: 'Beige', color: Color(0xFFF5F5DC)),
+  const ColorData(name: 'Maroon', color: Color(0xFF800000)),
+  const ColorData(name: 'Navy', color: Color(0xFF000080)),
+  const ColorData(name: 'Olive', color: Color(0xFF808000)),
+  const ColorData(name: 'Coral', color: Color(0xFFFF7F50)),
+  const ColorData(name: 'Turquoise', color: Color(0xFF40E0D0)),
+  const ColorData(name: 'Chocolate', color: Color(0xFFD2691E)),
+  const ColorData(name: 'Crimson', color: Color(0xFFDC143C)),
+  const ColorData(name: 'Azure', color: Color(0xFFF0FFFF)),
+  const ColorData(name: 'Lavender', color: Color(0xFFE6E6FA)),
+  const ColorData(name: 'Khaki', color: Color(0xFFF0E68C)),
+  const ColorData(name: 'Salmon', color: Color(0xFFFA8072)),
+  const ColorData(name: 'Orchid', color: Color(0xFFDA70D6)),
+  const ColorData(name: 'Honeydew', color: Color(0xFFF0FFF0)),
+  const ColorData(name: 'Mint', color: Color(0xFF98FF98)),
+  const ColorData(name: 'Ivory', color: Color(0xFFFFFFF0)),
+  const ColorData(name: 'Plum', color: Color(0xFFDDA0DD)),
+  const ColorData(name: 'Tomato', color: Color(0xFFFF6347)),
+  const ColorData(name: 'HotPink', color: Color(0xFFFF69B4)),
+  const ColorData(name: 'SeaGreen', color: Color(0xFF2E8B57)),
+  const ColorData(name: 'SlateBlue', color: Color(0xFF6A5ACD)),
+  const ColorData(name: 'LightCoral', color: Color(0xFFF08080)),
+  const ColorData(name: 'LightCyan', color: Color(0xE0FFFF)),
+  const ColorData(name: 'GoldenrodYellow', color: Color(0xFFFAFAD2)),
+  const ColorData(name: 'LightGray', color: Color(0xFfD3D3D3)),
+  const ColorData(name: 'LightGreen', color: Color(0xff90EE90)),
+  const ColorData(name: 'LightPink', color: Color(0xffFFB6C1)),
+  const ColorData(name: 'LightSalmon', color: Color(0xFFFFA07A)),
+  const ColorData(name: 'LightSeaGreen', color: Color(0xFF20B2AA)),
+  const ColorData(name: 'LightSkyBlue', color: Color(0xFF87CEFA)),
+  const ColorData(name: 'SlateGray', color: Color(0xFF778899)),
+  const ColorData(name: 'SteelBlue', color: Color(0xFFB0C4DE)),
+  const ColorData(name: 'LightYellow', color: Color(0xFFFFFFE0)),
+  const ColorData(name: 'LimeGreen', color: Color(0xFF32CD32)),
+  const ColorData(name: 'Aquamarine', color: Color(0xFF66CDAA)),
+];
+
+enum DifficultyLevel {
+  easy,
+  medium,
+  hard,
+  extreme,
+}
+
+String getTaskDescription() {
+  final descriptions = [
+    "Select the circles' FILL color",
+    "Select the circles' TEXT color",
+    "Select the circles' TEXT name",
+    'Select the color that was ANNOUNCED by voice',
+  ];
+  final rand = Random();
+  return descriptions[rand.nextInt(descriptions.length)];
+}
+
+int getNumberOfCircles(DifficultyLevel level) {
+  switch (level) {
+    case DifficultyLevel.easy:
+      return 1;
+    case DifficultyLevel.medium:
+      return 2;
+    case DifficultyLevel.hard:
+      return 3;
+    case DifficultyLevel.extreme:
+      return 5;
+  }
+}
+
+int getMemorizationTime(DifficultyLevel level) {
+  switch (level) {
+    case DifficultyLevel.easy:
+      return 5;
+    case DifficultyLevel.medium:
+      return 4;
+    case DifficultyLevel.hard:
+      return 3;
+    case DifficultyLevel.extreme:
+      return 2;
+  }
+}
+
+class CircleData {
+  final ColorData fillColor;
+  final ColorData textColor;
+  final ColorData textName;
+  final ColorData anounsmentColor;
+
+  CircleData({
+    required this.fillColor,
+    required this.textColor,
+    required this.textName,
+    required this.anounsmentColor,
+  });
+}
