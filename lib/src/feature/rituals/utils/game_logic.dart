@@ -136,3 +136,47 @@ class CircleData {
     required this.anounsmentColor,
   });
 }
+
+
+  final List<String> shortTips = [
+    "Use mnemonic devices",
+    "Practice active recall",
+    "Teach others what you learn",
+    "Get enough sleep",
+    "Use visualization techniques",
+    "Break information into chunks",
+    "Review material regularly"
+  ];
+
+    final List<String> detailedTips = [
+    "Tip #1: Use spaced repetition to reinforce your memory over time.",
+    "Tip #2: Create vivid mental images to associate with what you are learning.",
+    "Tip #3: Practice active recall by testing yourself on the material.",
+    "Tip #4: Write notes by hand to help encode information better.",
+    "Tip #5: Teach what you’ve learned to others to solidify your understanding.",
+    "Tip #6: Break information into smaller, manageable chunks.",
+    "Tip #7: Use mnemonic devices to remember complex concepts.",
+    "Tip #8: Get adequate sleep to consolidate your memories.",
+    "Tip #9: Stay hydrated, as dehydration can affect memory and focus.",
+    "Tip #10: Use acronyms or abbreviations to recall lists or sequences.",
+    "Tip #11: Study in short sessions with regular breaks to avoid fatigue.",
+    "Tip #12: Relate new information to things you already know.",
+    "Tip #13: Practice mindfulness to improve focus and attention.",
+    "Tip #14: Exercise regularly, as physical activity boosts brain health.",
+    "Tip #15: Create a dedicated study environment free of distractions.",
+    "Tip #16: Listen to music without lyrics if it helps you focus.",
+    "Tip #17: Review material before going to sleep to aid memory consolidation.",
+    "Tip #18: Use flashcards to practice and test your recall.",
+    "Tip #19: Use storytelling to make information more memorable.",
+    "Tip #20: Visualize concepts using diagrams or mind maps.",
+    "Tip #21: Take regular walks to clear your mind and boost creativity.",
+    "Tip #22: Avoid multitasking; focus on one task at a time.",
+    "Tip #23: Practice meditation to enhance your cognitive abilities.",
+    "Tip #24: Repeat information out loud to reinforce memory.",
+    "Tip #25: Use apps or tools designed for memory improvement.",
+    "Tip #26: Avoid cramming; spread your study sessions over time.",
+    "Tip #27: Highlight key points and review them frequently.",
+    "Tip #28: Reward yourself after completing a study session.",
+    "Tip #29: Keep a positive attitude, as stress can hinder memory.",
+    "Tip #30: Eat brain-boosting foods like nuts, berries, and fish."
+  ];

@@ -1,18 +1,19 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nero/src/feature/rituals/bloc/user_bloc.dart';
 import 'package:nero/src/feature/rituals/utils/game_logic.dart';
 
 class AnswerScreen extends StatefulWidget {
   final List<CircleData> circles;
-
-  final int hintsLeft;
+  final DifficultyLevel difficulty;
 
   const AnswerScreen({
     super.key,
+    required this.difficulty,
     required this.circles,
-    required this.hintsLeft,
   });
 
   @override
@@ -21,17 +22,17 @@ class AnswerScreen extends StatefulWidget {
 
 class _AnswerScreenState extends State<AnswerScreen> {
   late List<ColorData> _choices;
-  late int _hintsRemaining;
+
   late String _taskDescription;
   late Set<ColorData> _selectedColors;
 
   @override
   void initState() {
     super.initState();
-    _hintsRemaining = widget.hintsLeft;
+
     _taskDescription = getTaskDescription();
     _generateChoices();
-    _selectedColors = {}; 
+    _selectedColors = {};
   }
 
   void _generateChoices() {
@@ -66,8 +67,8 @@ class _AnswerScreenState extends State<AnswerScreen> {
     }
   }
 
-  void _useHint() {
-    if (_hintsRemaining <= 0) {
+  void _useHint(int hints) {
+    if (hints <= 0) {
       _showHintUnavailableDialog();
       return;
     }
@@ -75,7 +76,7 @@ class _AnswerScreenState extends State<AnswerScreen> {
     final correctColors = _getCorrectColorsByTask();
 
     setState(() {
-      _hintsRemaining--;
+      context.read<UserBloc>().add(UserHintUsed());
 
       final wrongColor = _choices.firstWhere(
         (color) => !correctColors.contains(color),
@@ -93,6 +94,8 @@ class _AnswerScreenState extends State<AnswerScreen> {
 
     if (_selectedColors.length == widget.circles.length) {
       _showResultDialog(isCorrect);
+      context.read<UserBloc>().add(UserPuzzleSolved(
+          isCorrect: isCorrect, difficulty: widget.difficulty));
     }
   }
 
@@ -147,76 +150,93 @@ class _AnswerScreenState extends State<AnswerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Select the Answer'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.help_outline),
-            onPressed: _useHint,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Center(
-              child: Text(
-                'Hints: $_hintsRemaining',
-                style: const TextStyle(fontSize: 16),
-              ),
-            ),
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          const SizedBox(height: 16),
-          Text(
-            _taskDescription,
-            style: const TextStyle(fontSize: 18),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 16),
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 3,
-              children: _choices.map((colorData) {
-                final isSelected = _selectedColors.contains(colorData);
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        if (state is! UserLoaded) {
+          return 
+           Center(
+              child: CircularProgressIndicator(),
+           
+          );
+        }
 
-                return GestureDetector(
-                  onTap: () {
-                    _toggleSelection(colorData);
-                    _checkAnswer();
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: colorData.color,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: isSelected ? Colors.blue : Colors.transparent,
-                        width: 3,
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        colorData.name,
-                        style: TextStyle(
-                          color: colorData.color.computeLuminance() > 0.5
-                              ? Colors.black
-                              : Colors.white,
-                          fontSize: 16,
-                          fontWeight:
-                              isSelected ? FontWeight.bold : FontWeight.normal,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+        final user = state.user;
+        final hintsRemaining = user.hints - user.hintsUsed;
+
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Select the Answer'),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.help_outline),
+                onPressed: () => _useHint(hintsRemaining),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Center(
+                  child: Text(
+                    'Hints: $hintsRemaining',
+                    style: const TextStyle(fontSize: 16),
                   ),
-                );
-              }).toList(),
-            ),
-          )
-        ],
-      ),
+                ),
+              ),
+            ],
+          ),
+          body: Column(
+            children: [
+              const SizedBox(height: 16),
+              Text(
+                _taskDescription,
+                style: const TextStyle(fontSize: 18),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: GridView.count(
+                  crossAxisCount: 3,
+                  children: _choices.map((colorData) {
+                    final isSelected = _selectedColors.contains(colorData);
+
+                    return GestureDetector(
+                      onTap: () {
+                        _toggleSelection(colorData);
+                        _checkAnswer();
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: colorData.color,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color:
+                                isSelected ? Colors.blue : Colors.transparent,
+                            width: 3,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            colorData.name,
+                            style: TextStyle(
+                              color: colorData.color.computeLuminance() > 0.5
+                                  ? Colors.black
+                                  : Colors.white,
+                              fontSize: 16,
+                              fontWeight: isSelected
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }
