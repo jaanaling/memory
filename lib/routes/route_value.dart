@@ -5,14 +5,12 @@ enum RouteValue {
   home(
     path: '/home',
   ),
-  shop(
-    path: 'shop',
+  article(
+    path: 'article',
   ),
-  recipe(
-    path: 'recipe',
+  articles(
+    path: '/articles',
   ),
-
-  privacy(path: '/privacy'),
 
   unknown(
     path: '',

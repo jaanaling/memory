@@ -24,7 +24,6 @@ dependencies:
   inner_glow: ^1.0.0
   flutter_tts: ^4.2.1
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -37,4 +36,16 @@ flutter:
     - assets/images/
     - assets/fonts/
     - assets/json/
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-Medium.otf
+          weight: 500
+        - asset: assets/fonts/Montserrat-Bold.otf
+          weight: 700
+    - family: Gunterz
+      fonts:
+        - asset: assets/fonts/Gunterz-Medium.otf
+          weight: 500
+
 

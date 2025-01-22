@@ -1,22 +1,20 @@
 enum IconProvider {
   splash(imageName: 'splash.png'),
   logo(imageName: 'logo.png'),
-  
-  // Add your lowercase image names here
-  arrow(imageName: 'arrow.png'),
-  back(imageName: 'back.png'),
+  back(imageName: 'back.svg'),
+  achievements(imageName: 'achievements.svg'),
+  coin(imageName: 'coin.png'),
   background(imageName: 'background.png'),
-  bomb(imageName: 'bombr.png'),
-  bombres(imageName: 'bombres.png'),
-  common(imageName: 'common.png'),
-  filtr(imageName: 'filtr.png'),
-  heart(imageName: 'heart.png'),
-  lock(imageName: 'lock.png'),
-  share(imageName: 'share.png'),
-  remove(imageName: 'remove.png'),
-  shop(imageName: 'shop.png'),
-  time(imageName: 'time.png'),
-
+  backgroundHome(imageName: 'background_home.png'),
+  tips(imageName: 'tips.png'),
+  mainBall(imageName: 'main_ball.png'),
+  dailyChallenge(imageName: 'daily_challenge.png'),
+  start(imageName: 'start.png'),
+  articles(imageName: 'articles.png'),
+  iconBack(imageName: 'icon_back.png'),
+  homeButtonBack(imageName: 'home_button_back.png'),
+  titleBack(imageName: 'title_back.png'),
+  articlesButton(imageName: 'articles_button.png'),
   unknown(imageName: '');
 
   const IconProvider({
