@@ -98,38 +98,42 @@ class _ArticleItem extends StatelessWidget {
           AppIcon(
             asset: IconProvider.articlesButton.buildImageUrl(),
           ),
-          Text(
-            article.title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 21,
-              fontFamily: 'Gunterz',
-              fontWeight: FontWeight.w500,
-              height: 1.30,
-              letterSpacing: -1.05,
-              shadows: [
-                BoxShadow(
-                  color: Colors.white,
-                  blurRadius: 6.5,
-                  spreadRadius: 15,
-                  offset: Offset(
-                    0.0,
-                    0,
+          Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: Text(
+              article.title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 21,
+                fontFamily: 'Gunterz',
+                fontWeight: FontWeight.w500,
+                height: 1.30,
+                letterSpacing: -1.05,
+                shadows: [
+                  BoxShadow(
+                    color: Colors.white,
+                    blurRadius: 6.5,
+                    spreadRadius: 15,
+                    offset: Offset(
+                      0.0,
+                      0,
+                    ),
                   ),
-                ),
-                BoxShadow(
-                  color: Color(0xFF0066FF),
-                  blurRadius: 30.2,
-                  spreadRadius: 15.0,
-                  offset: Offset(
-                    0.0,
-                    0,
+                  BoxShadow(
+                    color: Color(0xFF0066FF),
+                    blurRadius: 30.2,
+                    spreadRadius: 15.0,
+                    offset: Offset(
+                      0.0,
+                      0,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
+          Gap(20),
         ],
       ),
     );

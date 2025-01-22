@@ -15,6 +15,8 @@ enum IconProvider {
   homeButtonBack(imageName: 'home_button_back.png'),
   titleBack(imageName: 'title_back.png'),
   articlesButton(imageName: 'articles_button.png'),
+  alertDialogBack(imageName: 'alert_dialog_back.png'),
+  close(imageName: 'close.svg'),
   unknown(imageName: '');
 
   const IconProvider({

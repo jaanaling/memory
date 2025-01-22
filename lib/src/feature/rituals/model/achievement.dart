@@ -35,7 +35,7 @@ class Achievement {
       'id': id,
       'title': title,
       'description': description,
-      'reward': reward,
+      'coinReward': reward,
     };
   }
 
@@ -44,7 +44,7 @@ class Achievement {
       id: map['id'] as int,
       title: map['title'] as String,
       description: map['description'] as String,
-      reward: map['reward'] as int,
+      reward: map['coinReward'] as int,
     );
   }
 

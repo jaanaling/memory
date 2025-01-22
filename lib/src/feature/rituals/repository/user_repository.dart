@@ -67,8 +67,8 @@ class UserRepository {
   Future<List<Article>> loadArticles() async {
     // Загрузка статей из JSON файла
     final articles = await JsonLoader.loadData<Article>(
-      'articles',
-      'assets/json/articles.json',
+      'article',
+      'assets/json/article.json',
       (json) => Article.fromMap(json),
     );
     return articles;
@@ -77,8 +77,8 @@ class UserRepository {
   Future<List<Achievement>> loadAchievements() async {
     // Загрузка достижений из JSON файла
     final achievements = await JsonLoader.loadData<Achievement>(
-      'achievements',
-      'assets/json/achievements.json',
+      'achievement',
+      'assets/json/achievement.json',
       (json) => Achievement.fromMap(json),
     );
     return achievements;
