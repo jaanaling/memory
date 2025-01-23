@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nero/routes/go_router_config.dart';
 import 'package:nero/routes/route_value.dart';
 import 'package:nero/src/core/utils/app_icon.dart';
 import 'package:nero/src/core/utils/icon_provider.dart';
+import 'package:nero/src/feature/app/presentation/app_root.dart';
+import 'package:nero/src/feature/rituals/bloc/user_bloc.dart';
 import 'package:nero/src/feature/rituals/utils/game_logic.dart';
 import 'package:nero/ui_kit/animated_button.dart';
 import 'package:nero/ui_kit/app_button.dart';
@@ -15,6 +18,7 @@ void showBuyHintAlertDialog(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
+        final coins = (context.read<UserBloc>().state as UserLoaded).user.coins;
       return AlertDialog(
         contentPadding: EdgeInsets.zero,
         backgroundColor: Colors.transparent,
@@ -84,8 +88,11 @@ void showBuyHintAlertDialog(BuildContext context) {
                     Spacer(),
                     AppButton(
                         color: ButtonColors.purple,
-                        onPressed: () {},
-                        title: 'buy'),
+                        onPressed: () {
+                        if (coins >= 10) {
+                          context.read<UserBloc>().add(UserHintBought(10));}
+                        },
+                        title:coins >= 10? 'buy': 'not enough coins'),
                     Gap(27)
                   ],
                 ),

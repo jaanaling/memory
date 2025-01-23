@@ -102,7 +102,7 @@ class _AnswerScreenState extends State<AnswerScreen> {
         correctColors.containsAll(_selectedColors);
 
     if (_selectedColors.length == widget.circles.length) {
-      showResultDialog(context, isCorrect);
+      showResultDialog(context, isCorrect, widget.difficulty);
       context.read<UserBloc>().add(UserPuzzleSolved(
           isCorrect: isCorrect, difficulty: widget.difficulty));
     }
@@ -129,7 +129,7 @@ class _AnswerScreenState extends State<AnswerScreen> {
         }
 
         final user = state.user;
-        final hintsRemaining = user.hints - user.hintsUsed;
+        final hintsRemaining = user.hints ;
 
         return SafeArea(
           child: Padding(
@@ -160,7 +160,9 @@ class _AnswerScreenState extends State<AnswerScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       AppIconButton(
-                          onPressed: () {_useHint(hintsRemaining);},
+                          onPressed: () {
+                            _useHint(hintsRemaining);
+                          },
                           child: AppIcon(
                             asset: IconProvider.tips.buildImageUrl(),
                             width: 30,
@@ -202,7 +204,9 @@ class _AnswerScreenState extends State<AnswerScreen> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border: isSelected
-                                      ? Border.all(color: Colors.blueAccent, width: 3) // Рамка для выделенных
+                                      ? Border.all(
+                                          color: Colors.blueAccent,
+                                          width: 3) // Рамка для выделенных
                                       : null,
                                 ),
                                 child: ClipOval(
@@ -227,9 +231,10 @@ class _AnswerScreenState extends State<AnswerScreen> {
                                   colorData.name,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    color: colorData.color.computeLuminance() > 0.5
-                                        ? Colors.black
-                                        : Colors.white,
+                                    color:
+                                        colorData.color.computeLuminance() > 0.5
+                                            ? Colors.black
+                                            : Colors.white,
                                     fontSize: 19,
                                     fontFamily: 'Gunterz',
                                     fontWeight: FontWeight.w500,

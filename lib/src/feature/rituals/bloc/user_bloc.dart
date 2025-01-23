@@ -56,6 +56,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       coins: newCoins,
       hints: newHints,
     );
+    userRepository.save(newUser);
 
     emit(current.copyWith(user: newUser));
   }
@@ -72,6 +73,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       hints: newHints,
       hintsUsed: newHintsUsed,
     );
+    userRepository.save(newUser);
 
     emit(current.copyWith(user: newUser));
   }
@@ -84,6 +86,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     final oldUser = current.user;
 
     final newPuzzlesSolved = oldUser.puzzlesSolved + (wasCorrect ? 1 : 0);
+    final newRecord =
+        wasCorrect && oldUser.consecutivePuzzlesSolved > oldUser.record
+            ? oldUser.record + 1
+            : oldUser.record;
+
     final newConsecutive =
         wasCorrect ? oldUser.consecutivePuzzlesSolved + 1 : 0;
 
@@ -93,7 +100,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       coins: newCoins,
       puzzlesSolved: newPuzzlesSolved,
       consecutivePuzzlesSolved: newConsecutive,
+      record: newRecord,
     );
+    userRepository.save(newUser);
 
     emit(current.copyWith(user: newUser));
 
@@ -135,6 +144,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       achievements: newAchievements,
       coins: newCoins,
     );
+
+    userRepository.save(newUser);
 
     emit(current.copyWith(user: newUser));
   }

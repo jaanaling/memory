@@ -10,6 +10,7 @@ class User {
    int puzzlesSolved; // сколько всего загадок решено
    int hintsUsed; // сколько раз использовались подсказки
    int consecutivePuzzlesSolved;
+   int record;
 
    User({
     required this.coins,
@@ -18,6 +19,7 @@ class User {
     required this.puzzlesSolved,
     required this.hintsUsed,
     required this.consecutivePuzzlesSolved,
+     required this.record,
   });
 
   User copyWith({
@@ -27,6 +29,7 @@ class User {
     int? puzzlesSolved,
     int? hintsUsed,
     int? consecutivePuzzlesSolved,
+    int? record,
   }) {
     return User(
       coins: coins ?? this.coins,
@@ -36,6 +39,7 @@ class User {
       hintsUsed: hintsUsed ?? this.hintsUsed,
       consecutivePuzzlesSolved:
           consecutivePuzzlesSolved ?? this.consecutivePuzzlesSolved,
+          record: record ?? this.record,
     );
   }
 
@@ -46,6 +50,7 @@ class User {
         puzzlesSolved: 0,
         hintsUsed: 0,
         consecutivePuzzlesSolved: 0,
+        record: 0,
       );
 
   Map<String, dynamic> toMap() {
@@ -56,6 +61,7 @@ class User {
       'puzzlesSolved': puzzlesSolved,
       'hintsUsed': hintsUsed,
       'consecutivePuzzlesSolved': consecutivePuzzlesSolved,
+      'record': record,
     };
   }
 
@@ -67,6 +73,9 @@ class User {
       puzzlesSolved: map['puzzlesSolved'] as int,
       hintsUsed: map['hintsUsed'] as int,
       consecutivePuzzlesSolved: map['consecutivePuzzlesSolved'] as int,
+      record: map['record'] as int,
+
+
     );
   }
 
@@ -89,7 +98,9 @@ class User {
         listEquals(other.achievements, achievements) &&
         other.puzzlesSolved == puzzlesSolved &&
         other.hintsUsed == hintsUsed &&
+        other.record == record &&
         other.consecutivePuzzlesSolved == consecutivePuzzlesSolved;
+
   }
 
   @override

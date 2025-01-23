@@ -72,6 +72,11 @@ class AchievementScreen extends StatelessWidget {
                                   asset: IconProvider.mainBall.buildImageUrl(),
                                   width: 106,
                                   height: 106,
+                                  color: state.user.achievements
+                                          .contains(achievement.id)
+                                      ? const Color(0xFF12fc06)
+                                      : null,
+                                  blendMode: BlendMode.color,
                                 ),
                               ),
                               SizedBox(
