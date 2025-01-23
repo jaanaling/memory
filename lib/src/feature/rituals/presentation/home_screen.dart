@@ -41,7 +41,9 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Gap(15),
-                      AppAppBar(coinCount: state.user.coins, tipsCount: state.user.hints),
+                      AppAppBar(
+                          coinCount: state.user.coins,
+                          tipsCount: state.user.hints),
                       Gap(15),
                       Stack(
                         alignment: Alignment.center,
@@ -90,7 +92,14 @@ class HomeScreen extends StatelessWidget {
                       Gap(15),
                       HomeButton(
                         type: HomeButtonType.daily,
-                        onPressed: () {},
+                        onPressed: () {
+                          context.push(
+                              '${RouteValue.home.path}/${RouteValue.initial.path}',
+                              extra: {
+                                'level': DifficultyLevel.extreme,
+                                'stage': 1
+                              });
+                        },
                       ),
                       Gap(12),
                       Text(
