@@ -114,11 +114,11 @@ void showResultDialog(BuildContext context, bool result,  DifficultyLevel level)
                                   SizedBox(
                                     width: 242,
                                     child: Text(
-                                      'Tip: ${detailedTips[Random().nextInt(detailedTips.length)]}',
+                                      '${detailedTips[Random().nextInt(detailedTips.length)]}',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 24,
+                                        fontSize: 17,
                                         fontFamily: 'Montserrat',
                                         fontWeight: FontWeight.w700,
                                       ),

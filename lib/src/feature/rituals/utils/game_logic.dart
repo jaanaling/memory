@@ -98,11 +98,11 @@ int getMemorizationTime(DifficultyLevel level) {
     case DifficultyLevel.easy:
       return 5;
     case DifficultyLevel.medium:
-      return 4;
+      return 8;
     case DifficultyLevel.hard:
-      return 3;
+      return 9;
     case DifficultyLevel.extreme:
-      return 2;
+      return 10;
   }
 }
 
