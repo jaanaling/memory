@@ -11,6 +11,18 @@ enum RouteValue {
   articles(
     path: '/articles',
   ),
+  initial(
+    path: 'initial',
+  ),
+  game(
+    path: 'game',
+  ),
+  answer(
+    path: 'answer',
+  ),
+  achievements(
+    path: '/achievements',
+  ),
 
   unknown(
     path: '',

@@ -7,46 +7,57 @@ class AppIconButton extends StatelessWidget {
   final Widget child;
   final double width;
   final double height;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   const AppIconButton(
-      {super.key, required this.child, this.width = 62, this.height = 62, required this.onPressed});
+      {super.key,
+      required this.child,
+      this.width = 62,
+      this.height = 62,
+      required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedButton(
-      onPressed: onPressed,
-      child: Stack(
-        children: [
-          InnerGlow(
+    return onPressed != null
+        ? AnimatedButton(
+            onPressed: onPressed!,
+            child: content(),
+          )
+        : content();
+  }
+
+  Widget content() {
+    return Stack(
+      children: [
+        InnerGlow(
+          width: width,
+          height: height,
+          glowRadius: 13,
+          thickness: 10,
+          glowBlur: 5,
+          strokeLinearGradient: const LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [Color(0xFF4B3FE2), Color(0xFF4B3FE2)],
+          ),
+          baseDecoration: BoxDecoration(
+            border: Border.all(color: const Color(0xC7753FE2), width: 1),
+            borderRadius: BorderRadius.circular(13),
+            color: const Color(0xFF280178),
+          ),
+          child: Center(
+            child: child,
+          ),
+        ),
+        CustomPaint(
+          foregroundPainter:
+              BorderPainter(borderRadius: BorderRadius.circular(13)),
+          child: Container(
             width: width,
             height: height,
-            glowRadius: 13,
-            thickness: 10,
-            glowBlur: 5,
-            strokeLinearGradient: const LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [Color(0xFF4B3FE2), Color(0xFF4B3FE2)],
-            ),
-            baseDecoration: BoxDecoration(
-              border: Border.all(color: const Color(0xC7753FE2), width: 1),
-              borderRadius: BorderRadius.circular(13),
-              color: const Color(0xFF280178),
-            ),
-            child: Center(
-              child: child,
-            ),
+            color: Colors.transparent,
           ),
-          CustomPaint(
-            foregroundPainter: BorderPainter(borderRadius: BorderRadius.circular(13)),
-            child: Container(
-              width: width,
-              height: height,
-              color: Colors.transparent,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -74,16 +85,16 @@ class BorderPainter extends CustomPainter {
     double bottomRight = borderRadius.bottomRight.x;
 
     Path path = Path()
-    // Верхний левый угол
+      // Верхний левый угол
       ..moveTo(topLeft, 0)
       ..quadraticBezierTo(0, 0, 0, topLeft)
-    // Нижний левый угол
+      // Нижний левый угол
       ..moveTo(0, sh - bottomLeft)
       ..quadraticBezierTo(0, sh, bottomLeft, sh)
-    // Нижний правый угол
+      // Нижний правый угол
       ..moveTo(sw - bottomRight, sh)
       ..quadraticBezierTo(sw, sh, sw, sh - bottomRight)
-    // Верхний правый угол
+      // Верхний правый угол
       ..moveTo(sw, topRight)
       ..quadraticBezierTo(sw, 0, sw - topRight, 0);
 

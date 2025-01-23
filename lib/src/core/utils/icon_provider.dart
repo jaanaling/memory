@@ -17,6 +17,8 @@ enum IconProvider {
   articlesButton(imageName: 'articles_button.png'),
   alertDialogBack(imageName: 'alert_dialog_back.png'),
   close(imageName: 'close.svg'),
+  hexagons(imageName: 'hexagons.png'),
+  ball(imageName: 'ball.png'),
   unknown(imageName: '');
 
   const IconProvider({

@@ -2,9 +2,18 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nero/src/core/utils/app_icon.dart';
+import 'package:nero/src/core/utils/icon_provider.dart';
 import 'package:nero/src/feature/rituals/bloc/user_bloc.dart';
 import 'package:nero/src/feature/rituals/utils/game_logic.dart';
+import 'package:nero/ui_kit/animated_button.dart';
+import 'package:nero/ui_kit/app_bar.dart';
+import 'package:nero/ui_kit/buy_hint_alert_dialog.dart';
+
+import '../../../../ui_kit/app_icon_button.dart';
+import '../../../../ui_kit/resultAlertDialog.dart';
 
 class AnswerScreen extends StatefulWidget {
   final List<CircleData> circles;
@@ -69,7 +78,7 @@ class _AnswerScreenState extends State<AnswerScreen> {
 
   void _useHint(int hints) {
     if (hints <= 0) {
-      _showHintUnavailableDialog();
+      showHintUnavailableDialog(context);
       return;
     }
 
@@ -93,7 +102,7 @@ class _AnswerScreenState extends State<AnswerScreen> {
         correctColors.containsAll(_selectedColors);
 
     if (_selectedColors.length == widget.circles.length) {
-      _showResultDialog(isCorrect);
+      showResultDialog(context, isCorrect);
       context.read<UserBloc>().add(UserPuzzleSolved(
           isCorrect: isCorrect, difficulty: widget.difficulty));
     }
@@ -109,131 +118,134 @@ class _AnswerScreenState extends State<AnswerScreen> {
     });
   }
 
-  void _showResultDialog(bool isCorrect) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text(isCorrect ? 'Correct!' : 'Wrong!'),
-        content: Text(
-          isCorrect
-              ? 'Good job! You selected all the correct circles.'
-              : 'That is not correct. Try again.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              context.pop();
-              if (isCorrect) context.pop();
-            },
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showHintUnavailableDialog() {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Text('No Hints Left'),
-        content: const Text('You have used all your hints.'),
-        actions: [
-          TextButton(
-            onPressed: () => context.pop(),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state is! UserLoaded) {
-          return 
-           Center(
-              child: CircularProgressIndicator(),
-           
+          return Center(
+            child: CircularProgressIndicator(),
           );
         }
 
         final user = state.user;
         final hintsRemaining = user.hints - user.hintsUsed;
 
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Select the Answer'),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.help_outline),
-                onPressed: () => _useHint(hintsRemaining),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Center(
-                  child: Text(
-                    'Hints: $hintsRemaining',
-                    style: const TextStyle(fontSize: 16),
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            child: Column(
+              children: [
+                Gap(15),
+                AppAppBar(
+                  coinCount: user.coins,
+                  tipsCount: hintsRemaining,
+                  hasBackButton: true,
+                ),
+                const SizedBox(height: 35),
+                Text(
+                  _taskDescription,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontFamily: 'Gunterz',
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-              ),
-            ],
-          ),
-          body: Column(
-            children: [
-              const SizedBox(height: 16),
-              Text(
-                _taskDescription,
-                style: const TextStyle(fontSize: 18),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: GridView.count(
-                  crossAxisCount: 3,
+                const SizedBox(height: 11),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AppIconButton(
+                          onPressed: () {_useHint(hintsRemaining);},
+                          child: AppIcon(
+                            asset: IconProvider.tips.buildImageUrl(),
+                            width: 30,
+                            height: 45,
+                          )),
+                      Text(
+                        'use hint',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Spacer(),
+                Wrap(
+                  spacing: 16,
+                  runSpacing: 16,
                   children: _choices.map((colorData) {
                     final isSelected = _selectedColors.contains(colorData);
 
-                    return GestureDetector(
-                      onTap: () {
+                    return AnimatedButton(
+                      onPressed: () {
                         _toggleSelection(colorData);
                         _checkAnswer();
                       },
-                      child: Container(
-                        margin: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: colorData.color,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color:
-                                isSelected ? Colors.blue : Colors.transparent,
-                            width: 3,
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            colorData.name,
-                            style: TextStyle(
-                              color: colorData.color.computeLuminance() > 0.5
-                                  ? Colors.black
-                                  : Colors.white,
-                              fontSize: 16,
-                              fontWeight: isSelected
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          SizedBox(
+                            width: 109,
+                            height: 109,
+                            child: Center(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: isSelected
+                                      ? Border.all(color: Colors.blueAccent, width: 3) // Рамка для выделенных
+                                      : null,
+                                ),
+                                child: ClipOval(
+                                  child: AppIcon(
+                                    asset: IconProvider.ball.buildImageUrl(),
+                                    width: 103,
+                                    height: 103,
+                                    color: colorData.color,
+                                    blendMode: BlendMode.modulate,
+                                  ),
+                                ),
+                              ),
                             ),
-                            textAlign: TextAlign.center,
                           ),
-                        ),
+                          SizedBox(
+                            width: 90,
+                            height: 103,
+                            child: Center(
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  colorData.name,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: colorData.color.computeLuminance() > 0.5
+                                        ? Colors.black
+                                        : Colors.white,
+                                    fontSize: 19,
+                                    fontFamily: 'Gunterz',
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   }).toList(),
                 ),
-              )
-            ],
+                Spacer()
+              ],
+            ),
           ),
         );
       },

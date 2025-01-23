@@ -10,6 +10,7 @@ import 'package:nero/src/core/utils/size_utils.dart';
 import 'package:nero/ui_kit/app_bar.dart';
 import 'package:nero/ui_kit/app_icon_button.dart';
 import 'package:nero/ui_kit/home_button.dart';
+import 'package:nero/ui_kit/select_difficulty_alert_dialog.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -72,7 +73,9 @@ class HomeScreen extends StatelessWidget {
                   Gap(15),
                   HomeButton(
                     type: HomeButtonType.start,
-                    onPressed: () {},
+                    onPressed: () {
+                      showDifficultAlertDialog(context);
+                    },
                   ),
                   Gap(15),
                   HomeButton(

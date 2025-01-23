@@ -1,228 +1,143 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inner_glow/inner_glow.dart';
+import 'package:nero/src/core/utils/app_icon.dart';
+import 'package:nero/src/core/utils/icon_provider.dart';
+import 'package:nero/ui_kit/animated_button.dart';
 
 class AppButton extends StatelessWidget {
+  final String title;
   final ButtonColors color;
-  final Widget widget;
-  final VoidCallback? onPressed;
-  final double radius;
-  final bool isRound;
-  final double width;
-  final double height;
-  final double topPadding;
-  final double bottomPadding;
-  final GlobalKey? globalKey;
+  final VoidCallback onPressed;
 
   const AppButton({
     super.key,
     required this.color,
-    required this.widget,
-    this.onPressed,
-    this.radius = 14,
-    required this.width,
-    this.isRound = false,
-    this.globalKey,
-    this.topPadding = 4,
-    this.bottomPadding = 4,
-    required this.height,
+    required this.onPressed,
+    required this.title,
   });
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyleConfig styleConfig = _getButtonStyleConfig(color);
-
-    return Material(
-      key: globalKey,
-      textStyle: TextStyle(
-      fontFamily: 'Poetsen',
-      fontWeight: FontWeight.w700,
-      fontSize: 20,
-      color: Colors.white,
-      shadows: [
-        Shadow(
-          offset: Offset(2.0, 2.0), // Смещение тени
-          color: Color(0x80000000), // Цвет тени с прозрачностью
-          blurRadius: 4,
-        ),
-      ],
-    ),
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(radius),
-      elevation: 5,
-      child: InkWell(
-        onTap: onPressed,
-        borderRadius: BorderRadius.circular(radius),
-        splashColor: styleConfig.splashColor,
-        child: Ink(
-          width: width,
-          decoration: ShapeDecoration(
-            gradient: styleConfig.outerGradient,
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                width: 2,
-                strokeAlign: BorderSide.strokeAlignOutside,
-                color: styleConfig.borderColor,
-              ),
-              borderRadius: BorderRadius.circular(radius),
-            ),
-          ),
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: styleConfig.needsTop ? topPadding : 0,
-              bottom: bottomPadding,
-            ),
-            child: InnerGlow(
-              width: width,
-              height: height,
-              glowRadius: radius,
-              thickness: 10,
-              glowBlur: 5,
-              strokeLinearGradient: LinearGradient(
+    return AnimatedButton(
+      onPressed: onPressed,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: color == ButtonColors.deepPurple
-                    ? [Colors.black.withOpacity(0.25), Colors.transparent]
-                    : [Color(0x30FFFFFF), Color(0x30FFFFFF)],
+                colors: [
+                  Color(0xFF4150B6),
+                  Color(0xFFFBF1CE),
+                ],
               ),
-              baseDecoration: BoxDecoration(
-                gradient: styleConfig.innerGradient,
-                borderRadius: BorderRadius.circular(radius),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(2),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: color == ButtonColors.purple
+                        ? [
+                            Color(0xFF4A36BD),
+                            Color(0xFFEF5973),
+                          ]
+                        : [
+                            Color(0xFF006DBB),
+                            Color(0xFF1FCCBE),
+                          ],
+                  ),
+                ),
+                child: SizedBox(
+                  width: 235,
+                  height: 76,
+                ),
               ),
-              child: Center(child: widget),
             ),
           ),
-        ),
+          CustomPaint(
+            foregroundPainter: BorderPainter(),
+            child: Container(
+              width: 235,
+              height: 76,
+              color: Colors.transparent,
+            ),
+          ),
+          AppIcon(
+            asset: IconProvider.hexagons.buildImageUrl(),
+            width: 235,
+            height: 76,
+            fit: BoxFit.cover,
+          ),
+          Text(
+            title,
+            style: TextStyle(
+              color: Color(0xFFFFE7D4),
+              fontSize: 22,
+              fontFamily: 'Gunterz',
+              fontWeight: FontWeight.w500,
+              height: 0,
+            ),
+          )
+        ],
       ),
     );
   }
+}
 
-  ButtonStyleConfig _getButtonStyleConfig(ButtonColors color) {
-    switch (color) {
-      case ButtonColors.red:
-        return const ButtonStyleConfig(
-          splashColor: Color(0xFFFFBBBB),
-          borderColor: Colors.transparent,
-          outerGradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFFFFBBBB), Color(0xFF8a0100)],
-          ),
-          innerGradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFFFF5E5E), Color(0xFFB80000)],
-          ),
-        );
-      case ButtonColors.purple:
-        return const ButtonStyleConfig(
-          splashColor: Color(0xFFFFC8F1),
-          borderColor: Colors.transparent,
-          outerGradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFFFFC8F1), Color(0xFF8d00d8)],
-          ),
-          innerGradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFFF98FE2), Color(0xFFAC28F5)],
-          ),
-        );
-      case ButtonColors.green:
-        return const ButtonStyleConfig(
-          splashColor: Color(0xFFBBFFC7),
-          borderColor: Colors.transparent,
-          outerGradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFFBBFFC7), Color(0xFF03700e)],
-          ),
-          innerGradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF5EFF5E), Color(0xFF2F8900)],
-          ),
-        );
-      case ButtonColors.blue:
-        return const ButtonStyleConfig(
-          splashColor: Color(0xFF8DF7FB),
-          borderColor: Colors.transparent,
-          outerGradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF8DF7FB), Color(0xFF056eff)],
-          ),
-          innerGradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF15F2FF), Color(0xFF10A9FF)],
-          ),
-        );
-      case ButtonColors.deepPurple:
-        return const ButtonStyleConfig(
-          splashColor: Color(0xFFEC8AFF),
-          borderColor: Colors.transparent,
-          needsTop: false,
-          outerGradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFFEC8AFF), Color(0xFFEC8AFF)],
-          ),
-          innerGradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF680199), Color(0xFF680199)],
-          ),
-        );
-      case ButtonColors.darkPurple:
-        return const ButtonStyleConfig(
-          splashColor: Color(0xFFBB7FC9),
-          borderColor: Colors.transparent,
-          outerGradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFFA67FE9), Color(0xFF3d005c)],
-          ),
-          innerGradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF6E00A1), Color(0xFF580089)],
-          ),
-        );
-      default:
-        // Для остальных вариантов
-        return const ButtonStyleConfig(
-          splashColor: Color(0xFFf86dac),
-          borderColor: Color(0xFF590027),
-          outerGradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFFf86dac), Color(0xFFad086c)],
-          ),
-          innerGradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFFF8187B), Color(0xFFC90A7F)],
-          ),
-        );
-    }
+enum ButtonColors { purple, blue }
+
+class BorderPainter extends CustomPainter {
+  final double lineLength; // Длина линий на углах
+
+  BorderPainter({this.lineLength = 12}); // По умолчанию длина линии 20
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()
+      ..color = const Color(0xFF6FCEFF) // Цвет линий на углах
+      ..strokeWidth = 2 // Толщина линий
+      ..style = PaintingStyle.stroke;
+
+    Path path = Path();
+
+    // Верхний левый угол
+    path.moveTo(0, 0);
+    path.lineTo(lineLength, 0); // Горизонтальная линия
+    path.moveTo(0, 0);
+    path.lineTo(0, lineLength); // Вертикальная линия
+
+    // Верхний правый угол
+    path.moveTo(size.width, 0);
+    path.lineTo(size.width - lineLength, 0); // Горизонтальная линия
+    path.moveTo(size.width, 0);
+    path.lineTo(size.width, lineLength); // Вертикальная линия
+
+    // Нижний левый угол
+    path.moveTo(0, size.height);
+    path.lineTo(lineLength, size.height); // Горизонтальная линия
+    path.moveTo(0, size.height);
+    path.lineTo(0, size.height - lineLength); // Вертикальная линия
+
+    // Нижний правый угол
+    path.moveTo(size.width, size.height);
+    path.lineTo(size.width - lineLength, size.height); // Горизонтальная линия
+    path.moveTo(size.width, size.height);
+    path.lineTo(size.width, size.height - lineLength); // Вертикальная линия
+
+    canvas.drawPath(path, paint);
   }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+
+  @override
+  bool shouldRebuildSemantics(covariant CustomPainter oldDelegate) => false;
 }
-
-class ButtonStyleConfig {
-  final Color splashColor;
-  final Color borderColor;
-  final LinearGradient outerGradient;
-  final LinearGradient innerGradient;
-  final bool needsTop;
-
-  const ButtonStyleConfig(
-      {required this.splashColor,
-      required this.borderColor,
-      required this.outerGradient,
-      required this.innerGradient,
-      this.needsTop = true});
-}
-
-enum ButtonColors { purple, darkPurple, deepPurple, red, green, blue }
