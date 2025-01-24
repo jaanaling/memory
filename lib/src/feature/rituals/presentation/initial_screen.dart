@@ -54,6 +54,7 @@ class _InitialScreenState extends State<InitialScreen> {
         }
 
         return Stack(
+          alignment: Alignment.center,
           children: [
             SafeArea(
               child: Padding(
