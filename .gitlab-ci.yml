@@ -6,13 +6,13 @@ stages:
   - slack-report
 
 variables:
-  BACKEND_URL: "https://in.sweetbombrecipe.com"
+  BACKEND_URL: "https://in.neurobubbles.com"
 
   # autogenerate block start
   BUNDLE_VERSION: "0"
-  IOS_BUNDLE_ID: "com.sweetfuze.candybombrecipe"
+  IOS_BUNDLE_ID: "com.synapsestream.neurobubbles"
   ANDROID_BUNDLE_ID: "%ANDROID_BUNDLE_ID%"
-  PRODUCT_NAME: "Candy Bomb Recipe"
+  PRODUCT_NAME: "NeuroBubbles"
   # autogenerate block end
 
   BUILD_TARGET_IOS: "ios"
@@ -88,21 +88,21 @@ include:
 
   # appstore block start
   - export APP_NAME="${PRODUCT_NAME}"
-  - export ASC_KEY_ID="85B3H3A3X5"
-  - export ASC_KEY_ISSUER_ID="e6468622-d3c8-495c-a12d-9d1fd645dc89"
-  - export ASC_KEY_CONTENT="LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JR1RBZ0VBTUJNR0J5cUdTTTQ5QWdFR0NDcUdTTTQ5QXdFSEJIa3dkd0lCQVFRZzJ5NXJHOXovbVNMWDlmYmIKUmxia1AzR1ZsaVdiTU1ZK0J0T1VGY1VyaHYyZ0NnWUlLb1pJemowREFRZWhSQU5DQUFTeHlPT0JPQjJsNFJRTAp3TVJzSWpXeG95MUJvL0lKYjlmQWpDT3lZRlNvV0xqYTBYWW5pS0tKYVBucWlLYTRGVnhxT25kZThQcWhHZStDCjB0ZElyaS9aCi0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS0="
+  - export ASC_KEY_ID="QUB4VN26WQ"
+  - export ASC_KEY_ISSUER_ID="e5cd6ef8-88eb-4730-8766-4114fa2bfe1f"
+  - export ASC_KEY_CONTENT="LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JR1RBZ0VBTUJNR0J5cUdTTTQ5QWdFR0NDcUdTTTQ5QXdFSEJIa3dkd0lCQVFRZ0xrYnpSbmFBNUVmbmNMa0MKM3prZEJXNEVhMzJzZExLQlFET0xCK3hlYmZPZ0NnWUlLb1pJemowREFRZWhSQU5DQUFSWTdkQlZkWERXM2crQwpIdG9jbENhRVgrSXRUZllnZGlabkl5aG9GbHBvcDc2MmdvOE5wek9aV2RmOEp5bG5vdXRpMFFDQmYxRWtxWXNjCk9uS1dzbGpBCi0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS0="
 
   - export MATCH_TYPE="appstore"
   - export MATCH_GIT_URL="git@railroad.git.emehanika.com:automation/fastlane-certs.git"
   - export MATCH_STORAGE_MODE="git"
-  - export MATCH_PASSWORD="3UxyTThypkoHS1e"
+  - export MATCH_PASSWORD="q5uAsEy01DXu"
 
-  - export MATCH_USERNAME="murwinyoung@gmail.com"
+  - export MATCH_USERNAME="gracelynboehme932@gmail.com"
   - export MATCH_KEYCHAIN_NAME="${MATCH_USERNAME}"
   - export MATCH_KEYCHAIN_PASSWORD="${MATCH_PASSWORD}"
 
-  - export FASTLANE_TEAM_ID="JDQ7QQ42A2"
-  - export FASTLANE_TEAM_NAME="Jakubovicz Assaf"
+  - export FASTLANE_TEAM_ID="AW5DFB9YBY"
+  - export FASTLANE_TEAM_NAME="Comerzan Irina"
   - export FASTLANE_ITC_TEAM_NAME="${FASTLANE_TEAM_NAME}"
   # appstore block end
 
